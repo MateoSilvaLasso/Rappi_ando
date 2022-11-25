@@ -10,14 +10,16 @@ class Node {
     public double y;
     public String name;
     private boolean visited;
-    private Circle circle = new Circle(10.0);
+    private Circle circle;
     private Text text;
     LinkedList<Edge> edges;
 
     Node(double x, double y, String name) {
-        this.circle.setFill(Color.GAINSBORO);
-        this.circle.setStroke(Color.CORNFLOWERBLUE);
-        this.text = new Text(name);
+        //this.circle=new Circle(x,y,10, Color.rgb(48,48,48));
+        circle=new Circle(x,y,10);
+        circle.setFill(Color.BLACK);
+        circle.setStroke(Color.WHITE);
+        text = new Text(name);
         this.x = x;
         this.y = y;
         this.name = name;
@@ -25,20 +27,19 @@ class Node {
         this.edges = new LinkedList();
     }
 
-    Circle getCircle(double scale) {
-        this.circle.setCenterX(this.x * scale);
-        this.circle.setCenterY(this.y * scale);
-        return this.circle;
-    }
-
     Circle getCircle() {
-        return this.circle;
+        circle.setCenterX(x);
+        circle.setCenterY(y);
+        return circle;
     }
 
     Text getText() {
-        this.text.layoutXProperty().bind(this.circle.centerXProperty().add(-this.text.getLayoutBounds().getWidth() / 2.0));
-        this.text.layoutYProperty().bind(this.circle.centerYProperty().add(5));
-        return this.text;
+        text.layoutXProperty().bind(circle.centerXProperty().add(-text.getLayoutBounds().getWidth() / 2));
+        text.layoutXProperty().unbind();
+        text.layoutYProperty().bind(circle.centerYProperty().add(5));
+        text.layoutYProperty().unbind();
+        text.setFill(Color.WHITE);
+        return text;
     }
 
     boolean isVisited() {

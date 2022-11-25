@@ -34,7 +34,6 @@ public class Graph{
     String DeleteNode(String node){
         for(Node n:nodes){
             if(n.name.equals(node)){
-//                nodes.remove(n);
                 adj.DeleteNo(n);
                 nodes.remove(n);
                 return  "Node Deleted";
