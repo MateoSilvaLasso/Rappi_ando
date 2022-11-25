@@ -1,33 +1,182 @@
 package com.example.rappi_ando.model;
 
-import java.util.ArrayList;
 import java.util.*;
-import javafx.util.*;
 
-public class Graph<T> implements Igraph<T>{
-    private ArrayList<Node<T>> graph;
 
-    private int time;
+public class Graph{
 
-    public Graph(){
+    private LinkedList<Node> nodes = new LinkedList();
+    private Dijkstra adj = new Dijkstra(true);
 
-        this.graph = new ArrayList<>();
-
+    String addNode(double x,double y,String name){
+        Node temp = new Node(x,y,name);
+        nodes.add(temp);
+        return ("Node Added Successfully");
     }
-    @Override
-    public void addvertex(int key, T value) {
-        Node<T> node= new Node(value,key);
-        this.graph.add(node);
+    Node getNode(String from){
+        for(Node i:nodes){
+            if(i.name.equals(from)){
+                return i;
+            }
+        }
+        return null;
+    }
+    String SearchNode(String node) {
+        for(Node i:nodes){
+            if(i.name.equals(node)){
+                return ("X coordinate:"+i.x+"\n"+"Y coordinate:"+i.y);
+            }
+        }
+        return ("Node not Found");
     }
 
-    @Override
-    public void addedge(int key, int adj, int w) {
-        if(searchNode(key)==null || searchNode(adj)==null) return;
-
-        graph.get(key).addNode(searchNode(adj),w);
-
+    String DeleteNode(String node){
+        for(Node n:nodes){
+            if(n.name.equals(node)){
+//                nodes.remove(n);
+                adj.DeleteNo(n);
+                nodes.remove(n);
+                return  "Node Deleted";
+            }
+        }
+        return "Node Doesn't exist";
     }
 
+    String ModifyNode(String node,double x,double y){
+        for(Node i:nodes){
+            if(i.name.equals(node)){
+                i.x = x;
+                i.y = y;
+                return ("Node Modified");
+            }
+        }
+        return ("Node not Found");
+    }
+
+    String addEdge(String from,String to,double weight){
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode = i;
+            }
+        }
+        if(fromNode == null)
+            return ("Form node not found");
+        else if(toNode == null)
+            return ("To node not Found");
+        else {
+            adj.addEdge(fromNode, toNode, weight);
+            return ("Edge added Successfully");
+        }
+    }
+
+    String SearchEdge(String from,String to){
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode = i;
+            }
+        }
+        if(fromNode == null || toNode == null) {
+            return ("Edge Not Found");
+        }
+        else
+        {
+            if(adj.hasEdge(fromNode, toNode)){
+                return ("Edge Found \n"+"Weight is "+adj.Weight(fromNode,toNode));
+            }
+            else
+                return ("Edge Not Found");
+        }
+    }
+
+    String ModifyEdge(String from,String to,double weight){
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode = i;
+            }
+        }
+        if(fromNode == null || toNode == null)
+            return ("Edge not Found");
+        else {
+            adj.ModifyEdgeWeight(fromNode, toNode,weight);
+            return ("Edge Modified Successfully");
+        }
+    }
+    String DeleteEdge(String from,String to){
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode = i;
+            }
+        }
+        if(fromNode == null || toNode == null){
+            return ("Edge not Found");
+        }
+        else if(fromNode == toNode){
+            return ("Both Nodes are same!");
+        }
+        else {
+
+            if(adj.DeleteEd(fromNode, toNode)){
+                return ("Edge deleted");
+            }
+            else
+                return ("Edge Not Found");
+        }
+    }
+
+    String getPath(String from,String to){
+        String output;
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode =i;
+            }
+        }
+        output = adj.DijkstraShortestPath(fromNode,toNode);
+        adj.resetNodesVisited();
+        return output;
+    }
+
+    LinkedList<Node> getNodes(){
+        return nodes;
+    }
+    public Dijkstra getAdj(){
+        return adj;
+    }
+
+    Stack<Node> getNodePath(String from,String to){
+        Node fromNode=null,toNode=null;
+        for (Node i :nodes) {
+            if(i.name.equals(from)){
+                fromNode = i;
+            }
+            if(i.name.equals(to)){
+                toNode = i;
+            }
+        }
+        return adj.animatePath(fromNode,toNode);
+    }
+    }
+
+    /*
     public Node<T> searchNode(int key){
         for(int i=0; i<graph.size(); i++){
             if(graph.get(i).getKey()==key){
@@ -36,7 +185,6 @@ public class Graph<T> implements Igraph<T>{
         }
         return null;
     }
-
     @Override
     public ArrayList<Node<T>> BFS(int key) {
         ArrayList<Node<T>> arr= new ArrayList<>();
@@ -106,7 +254,6 @@ public class Graph<T> implements Igraph<T>{
         time+=1;
         u.setForward(time);
     }
-
     @Override
     public ArrayList<Integer> dijkstra(int source) {
         ArrayList<Integer> dist= new ArrayList<>(graph.size()-1);
@@ -229,4 +376,5 @@ public class Graph<T> implements Igraph<T>{
 
         return key;
     }
-}
+     */
+

@@ -8,11 +8,11 @@ public interface Igraph<T> {
 
     public void addedge(int key, int adj, int w);
 
-    public ArrayList<Node<T>> BFS(int key);
+    public ArrayList<T> BFS(int key);
 
     public void DFS();
 
-    public void DFSVisit(Node<T>u);
+    public void DFSVisit(Node u);
 
     public ArrayList<Integer> dijkstra(int source);
 

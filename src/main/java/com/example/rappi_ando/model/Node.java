@@ -1,88 +1,55 @@
 package com.example.rappi_ando.model;
 
-import javafx.util.Pair;
-import java.util.*;
+import java.util.LinkedList;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
-public class Node<T> {
-    private T value;
-    private int key;
+class Node {
+    public double x;
+    public double y;
+    public String name;
+    private boolean visited;
+    private Circle circle = new Circle(10.0);
+    private Text text;
+    LinkedList<Edge> edges;
 
-    private int forward;
-
-    private int color; //0= white , 1= gray , 2= black
-
-    private int d;
-
-    private Node<T> pi;
-    private ArrayList<Pair<Node<T>,Integer>> nodes;
-    public Node(){
-
+    Node(double x, double y, String name) {
+        this.circle.setFill(Color.GAINSBORO);
+        this.circle.setStroke(Color.CORNFLOWERBLUE);
+        this.text = new Text(name);
+        this.x = x;
+        this.y = y;
+        this.name = name;
+        this.visited = false;
+        this.edges = new LinkedList();
     }
 
-    public Node(T value, int key) {
-        this.value = value;
-        this.key = key;
-        nodes= new ArrayList<>();
+    Circle getCircle(double scale) {
+        this.circle.setCenterX(this.x * scale);
+        this.circle.setCenterY(this.y * scale);
+        return this.circle;
     }
 
-    public void addNode(Node<T>a, Integer b){
-        Pair<Node<T>,Integer> node= new Pair<>(a,b);
-        nodes.add(node);
+    Circle getCircle() {
+        return this.circle;
     }
 
-    public T getValue() {
-        return value;
+    Text getText() {
+        this.text.layoutXProperty().bind(this.circle.centerXProperty().add(-this.text.getLayoutBounds().getWidth() / 2.0));
+        this.text.layoutYProperty().bind(this.circle.centerYProperty().add(5));
+        return this.text;
     }
 
-    public void setValue(T value) {
-        this.value = value;
+    boolean isVisited() {
+        return this.visited;
     }
 
-    public int getKey() {
-        return key;
+    void visit() {
+        this.visited = true;
     }
 
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    public int getForward() {
-        return forward;
-    }
-
-    public void setForward(int forward) {
-        this.forward = forward;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public int getD() {
-        return d;
-    }
-
-    public void setD(int d) {
-        this.d = d;
-    }
-
-    public Node<T> getPi() {
-        return pi;
-    }
-
-    public void setPi(Node<T> pi) {
-        this.pi = pi;
-    }
-
-    public ArrayList<Pair<Node<T>, Integer>> getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(ArrayList<Pair<Node<T>, Integer>> nodes) {
-        this.nodes = nodes;
+    void unvisited() {
+        this.visited = false;
     }
 }
