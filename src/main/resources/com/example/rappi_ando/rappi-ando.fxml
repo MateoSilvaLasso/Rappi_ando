@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="834.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.rappi_ando.model.RappiandoController">
@@ -33,66 +34,70 @@
                         <Insets bottom="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
                      <children>
-                        <Button fx:id="addNodeBTN" mnemonicParsing="false" onAction="#addNode" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Add Node" textFill="WHITE">
+                        <ToggleButton fx:id="addNodeTBTN" mnemonicParsing="false" onAction="#addNode" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Add Node" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
-                        </Button>
-                        <Button fx:id="deleteNodeBTN" mnemonicParsing="false" onAction="#deleteNode" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Delete Node" textFill="WHITE">
+                        </ToggleButton>
+                        <ToggleButton fx:id="deleteNodeTBTN" mnemonicParsing="false" onAction="#deleteNode" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Delete Node" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="addEdgeBTN" mnemonicParsing="false" onAction="#addEdge" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Add Edge" textFill="WHITE">
-                           <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="15.0" />
                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="deleteEdgeBTN" mnemonicParsing="false" onAction="#deleteEdge" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Delete Edge" textFill="WHITE">
+                        </ToggleButton>
+                        <ToggleButton fx:id="addEdgeSBTN" mnemonicParsing="false" onAction="#addEdge" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Add Edge" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="15.0" />
                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="dijkstraBTN" mnemonicParsing="false" onAction="#dijkstra" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
+                        </ToggleButton>
+                        <ToggleButton fx:id="deleteEdgeTBTN" mnemonicParsing="false" onAction="#deleteEdge" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Delete Edge" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="15.0" />
                            </HBox.margin>
-                        </Button>
-                        <Button fx:id="primBTN" mnemonicParsing="false" onAction="#prim" style="-fx-background-color: #fa5e4d; -fx-background-radius: 7; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Prim" textFill="WHITE">
+                        </ToggleButton>
+                        <ToggleButton mnemonicParsing="false" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
                            <font>
-                              <Font name="Leelawadee UI Bold" size="14.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="15.0" />
                            </HBox.margin>
-                        </Button>
+                        </ToggleButton>
+                        <ToggleButton fx:id="primTBTN" mnemonicParsing="false" onAction="#prim" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Prim" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </ToggleButton>
                      </children>
                   </HBox>
                </children>
             </HBox>
          </top>
          <center>
-            <ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="635.0" prefWidth="838.0" BorderPane.alignment="CENTER">
+            <ScrollPane fx:id="mapSP" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="635.0" prefWidth="838.0" BorderPane.alignment="CENTER">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1420.0" prefWidth="820.0">
+                <AnchorPane fx:id="paneAP" minHeight="0.0" minWidth="0.0" prefHeight="1420.0" prefWidth="820.0">
                      <children>
-                        <ImageView fitHeight="1418.0" fitWidth="834.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Sur_Cali_Mapa.png" />
-                           </image>
-                        </ImageView>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="1418.0" fitWidth="834.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Sur_Cali_Mapa.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
               </content>

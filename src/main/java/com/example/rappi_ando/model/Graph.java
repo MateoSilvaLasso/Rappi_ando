@@ -8,10 +8,11 @@ public class Graph{
     private LinkedList<Node> nodes = new LinkedList();
     private Dijkstra adj = new Dijkstra(true);
 
-    String addNode(double x,double y,String name){
+    void addNode(double x,double y,String name){
         Node temp = new Node(x,y,name);
         nodes.add(temp);
-        return ("Node Added Successfully");
+        System.out.println(x+" y "+y);
+        System.out.println(("Node Added Successfully"));
     }
     Node getNode(String from){
         for(Node i:nodes){

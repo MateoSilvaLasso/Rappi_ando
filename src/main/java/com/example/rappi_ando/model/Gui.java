@@ -29,7 +29,7 @@ class Gui {
 
         return gridPane;
     }
-
+/*
     void addNodeUIControls(GridPane gridPane ,String str) {
         // Add Name Label
         Label nameLabel = new Label("Vertex Name : ");
@@ -84,8 +84,8 @@ class Gui {
                     return;
                 }
                 if(str.equals("Add Node")) {
-                    String output = graph.addNode(x,y,nameField.getText());
-                    showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Addition Successful!", output);
+                    graph.addNode(x,y,nameField.getText());
+                    showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Addition Successful!");
                 }
                 else if(str.equals("Modify Node")) {
                     String output = graph.ModifyNode(nameField.getText(),x,y);
@@ -98,6 +98,8 @@ class Gui {
             //add node here
         });
     }
+
+ */
     void addSearchUI(GridPane gridPane,String str){
 
 
