@@ -4,6 +4,23 @@ import java.util.*;
 
 
 public class Graph{
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    private boolean flag=false;
+
+    private static final Graph instance = new Graph();
+
+    private Graph(){}
+
+    public static Graph getInstance(){
+        return instance;
+    }
 
     private LinkedList<Node> nodes = new LinkedList();
     private Dijkstra adj = new Dijkstra(true);
@@ -55,21 +72,26 @@ public class Graph{
 
     String addEdge(String from,String to,double weight){
         Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
-                fromNode = i;
+        if(!from.equals(to)) {
+            for (Node i : nodes) {
+                if (i.name.equals(from)) {
+                    fromNode = i;
+                }
+                if (i.name.equals(to)) {
+                    toNode = i;
+                    System.out.println(toNode);
+                }
             }
-            if(i.name.equals(to)){
-                toNode = i;
+            if (fromNode == null)
+                return ("From node not found");
+            else if (toNode == null)
+                return ("To node not Found");
+            else {
+                adj.addEdge(fromNode, toNode, weight);
+                return ("Edge added Successfully");
             }
-        }
-        if(fromNode == null)
-            return ("Form node not found");
-        else if(toNode == null)
-            return ("To node not Found");
-        else {
-            adj.addEdge(fromNode, toNode, weight);
-            return ("Edge added Successfully");
+        }else {
+            return "The nodes from and to cannot be the same";
         }
     }
 

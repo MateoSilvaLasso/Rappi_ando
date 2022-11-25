@@ -1,5 +1,6 @@
 package com.example.rappi_ando;
 
+import com.example.rappi_ando.model.RappiandoController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

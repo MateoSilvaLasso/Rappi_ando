@@ -35,24 +35,55 @@ public class AddEdgeController {
         weightFT.setText("");
         Stage currentStage = (Stage) weightFT.getScene().getWindow();
         currentStage.hide();
+        Graph.getInstance().setFlag(true);
     }
 
     @FXML
     void continueA(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        if(fromNodeTF.getText().isEmpty()) {
-            alert.setTitle("Error!");
-            alert.setHeaderText("Please complete de field 'From node:'");
-            alert.showAndWait();
-        } else if(toNodeTF.getText().isEmpty()) {
-            alert.setTitle("Error!");
-            alert.setHeaderText("Please complete de field 'To node:'");
-            alert.showAndWait();
-        }else if(weightFT.getText().isEmpty()) {
-            alert.setTitle("Error!");
-            alert.setHeaderText("Please complete de field 'Edge Weight:'");
-            alert.showAndWait();
-        }
+        double weight = 0;
+        int from=0,to=0;
+            if(fromNodeTF.getText().isEmpty()) {
+                alert.setTitle("Error!");
+                alert.setHeaderText("Please complete de field 'From node:'");
+                alert.showAndWait();
+            } else if(toNodeTF.getText().isEmpty()) {
+                alert.setTitle("Error!");
+                alert.setHeaderText("Please complete de field 'To node:'");
+                alert.showAndWait();
+            }else if(weightFT.getText().isEmpty()) {
+                alert.setTitle("Error!");
+                alert.setHeaderText("Please complete de field 'Edge Weight:'");
+                alert.showAndWait();
+            }else {
+                try {
+                    weight = Double.parseDouble(weightFT.getText());
+                }catch (NumberFormatException er){
+                    alert.setTitle("Error!");
+                    alert.setHeaderText("Invalid input of 'Edge Weight:'");
+                    alert.showAndWait();
+                }
+                try {
+                    from=Integer.parseInt(fromNodeTF.getText());
+                }catch (NumberFormatException er){
+                    alert.setTitle("Error!");
+                    alert.setHeaderText("Invalid input of 'From node:'");
+                    alert.showAndWait();
+                }
+                try {
+                    to=Integer.parseInt(toNodeTF.getText());
+                }catch (NumberFormatException er){
+                    alert.setTitle("Error!");
+                    alert.setHeaderText("Invalid input of 'To node:'");
+                    alert.showAndWait();
+                }
+                Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                alert2.setHeaderText(Graph.getInstance().addEdge(from+"",to+"",weight));
+                alert2.showAndWait();
+            }
+        fromNodeTF.setText("");
+        toNodeTF.setText("");
+        weightFT.setText("");
     }
 
 }

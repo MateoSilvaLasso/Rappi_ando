@@ -5,6 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -18,7 +19,15 @@ import java.util.ResourceBundle;
 
 
 public class RappiandoController implements Initializable {
-    private final Graph graph=new Graph();
+
+    private static final RappiandoController instance = new RappiandoController();
+    public RappiandoController(){}
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    private Graph graph = Graph.getInstance();
 
     @FXML
     private ToggleButton addEdgeSBTN;
@@ -64,6 +73,9 @@ public class RappiandoController implements Initializable {
                 addNodeTBTN.setSelected(false);
                 getGraphPane(tempPane);
                 nodesCounter=nodesCounter+1;
+            }else {
+                tempPane.getChildren().clear();
+                getGraphPane(tempPane);
             }
         });
         System.out.println("chao");
@@ -107,15 +119,11 @@ public class RappiandoController implements Initializable {
     void getGraphPane(AnchorPane tempPane){
         ArrayList<Edge> edgeArrayList = new ArrayList<>();
         graph.getAdj().copyEdge(edgeArrayList);
-        /*
-        for(Edge e : edgeArrayList){
-            paneAP.getChildren().addAll(e.getLine(),e.getText());
-            if(enableTouch) {
-                enableEdgeDelete(pane, e.getLine(), e, scale);
-            }
-        }
 
-        */
+        for(Edge e : edgeArrayList){
+            tempPane.getChildren().addAll(e.getLine(),e.getText());
+            //enableEdgeDelete(pane, e.getLine(), e, scale);
+        }
         for(int i=0;i<graph.getNodes().size();i++){
             tempPane.getChildren().add(graph.getNodes().get(i).getCircle());
             tempPane.getChildren().add(graph.getNodes().get(i).getText());
