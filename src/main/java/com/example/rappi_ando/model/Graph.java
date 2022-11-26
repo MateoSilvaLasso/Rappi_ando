@@ -1,5 +1,8 @@
 package com.example.rappi_ando.model;
 
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Pair;
+
 import java.io.*;
 import java.util.*;
 
@@ -83,26 +86,6 @@ public class Graph {
             }
         } else {
             return "The nodes from and to cannot be the same";
-        }
-    }
-
-    String searchEdge(String from, String to) {
-        Node fromNode = null, toNode = null;
-        for (Node i : nodes) {
-            if (i.name.equals(from)) {
-                fromNode = i;
-            }
-            if (i.name.equals(to)) {
-                toNode = i;
-            }
-        }
-        if (fromNode == null || toNode == null) {
-            return ("Edge Not Found");
-        } else {
-            if (hasEdge(fromNode, toNode)) {
-                return ("Edge Found \n" + "Weight is " + weight(fromNode, toNode));
-            } else
-                return ("Edge Not Found");
         }
     }
 
@@ -354,38 +337,6 @@ public class Graph {
         edge.weight = weight;
     }
 
-    boolean hasEdge(Node source, Node destination) {
-        LinkedList<Edge> edges = source.edges;
-        Iterator var4 = edges.iterator();
-
-        Edge edge;
-        do {
-            if (!var4.hasNext()) {
-                return false;
-            }
-
-            edge = (Edge)var4.next();
-        } while(edge.destination != destination);
-
-        return true;
-    }
-
-    double weight(Node source, Node destination) {
-        LinkedList<Edge> edges = source.edges;
-        Iterator var4 = edges.iterator();
-
-        Edge edge;
-        do {
-            if (!var4.hasNext()) {
-                return 0.0;
-            }
-
-            edge = (Edge)var4.next();
-        } while(edge.destination != destination);
-
-        return edge.weight;
-    }
-
     void resetNodesVisited() {
         Iterator var1 = this.nodes1.iterator();
 
@@ -399,7 +350,7 @@ public class Graph {
     String dijkstraShortestPath(Node start, Node end) {
         String output = "";
         HashMap<Node, Node> changedAt = new HashMap();
-        changedAt.put(start, (Node) null);
+        changedAt.put(start, null);
         HashMap<Node, Double> shortestPathMap = new HashMap();
         Iterator var6 = this.nodes1.iterator();
 
@@ -434,7 +385,7 @@ public class Graph {
                 StringBuilder path = new StringBuilder(end.name);
 
                 while(true) {
-                    Node parent = (Node)changedAt.get(child);
+                    Node parent = changedAt.get(child);
                     if (parent == null) {
                         output = output + path;
                         return output;
@@ -450,8 +401,8 @@ public class Graph {
 
             while(var12.hasNext()) {
                 Edge edge = (Edge)var12.next();
-                if (!edge.destination.isVisited() && (Double)shortestPathMap.get(currentNode) + edge.weight < (Double)shortestPathMap.get(edge.destination)) {
-                    shortestPathMap.put(edge.destination, (Double)shortestPathMap.get(currentNode) + edge.weight);
+                if (!edge.destination.isVisited() && shortestPathMap.get(currentNode) + edge.weight < shortestPathMap.get(edge.destination)) {
+                    shortestPathMap.put(edge.destination, shortestPathMap.get(currentNode) + edge.weight);
                     changedAt.put(edge.destination, currentNode);
                 }
             }
@@ -461,7 +412,7 @@ public class Graph {
     Stack<Node> animatePath(Node start, Node end) {
         Stack<Node> path = new Stack();
         HashMap<Node, Node> changedAt = new HashMap();
-        changedAt.put(start, (Node) null);
+        changedAt.put(start, null);
         HashMap<Node, Double> shortestPathMap = new HashMap();
         Iterator var6 = this.nodes1.iterator();
 
@@ -496,7 +447,7 @@ public class Graph {
                 path.push(end);
 
                 while(true) {
-                    Node parent = (Node)changedAt.get(child);
+                    Node parent = changedAt.get(child);
                     if (parent == null) {
                         return path;
                     }
@@ -511,8 +462,8 @@ public class Graph {
 
             while(var11.hasNext()) {
                 Edge edge = (Edge)var11.next();
-                if (!edge.destination.isVisited() && (Double)shortestPathMap.get(currentNode) + edge.weight < (Double)shortestPathMap.get(edge.destination)) {
-                    shortestPathMap.put(edge.destination, (Double)shortestPathMap.get(currentNode) + edge.weight);
+                if (!edge.destination.isVisited() && shortestPathMap.get(currentNode) + edge.weight < shortestPathMap.get(edge.destination)) {
+                    shortestPathMap.put(edge.destination, shortestPathMap.get(currentNode) + edge.weight);
                     changedAt.put(edge.destination, currentNode);
                 }
             }
@@ -527,7 +478,7 @@ public class Graph {
         while(var5.hasNext()) {
             Node node = (Node)var5.next();
             if (!node.isVisited()) {
-                double currentDistance = (Double)shortestPathMap.get(node);
+                double currentDistance = shortestPathMap.get(node);
                 if (currentDistance != Double.POSITIVE_INFINITY && currentDistance < shortestDistance) {
                     shortestDistance = currentDistance;
                     closestReachableNode = node;
@@ -537,6 +488,39 @@ public class Graph {
 
         return closestReachableNode;
     }
+    private Stack<Node> prim(AnchorPane pane){
+        return null;
+    }
+
+    /*
+    private int[] prim(String r) {
+        int[] key= new int[graph.size()];
+        int [] color= new int[graph.size()];
+        int [] pred= new int[graph.size()];
+        for(com.example.rappi_ando.graph_implementation_generics.Node<T> u: graph){
+            key[u.getKey()]= ((Integer)1).MAX_VALUE;
+            color[u.getKey()]=0;
+        }
+
+        key[r]=0;
+        pred[r]=-1;
+        PriorityQueue<String> q= new PriorityQueue<>();
+        q.add(r);
+        while(!q.isEmpty()){
+            String u= q.poll();
+            for(Pair<com.example.rappi_ando.graph_implementation_generics.Node<T>,Integer> v: graph.get(u).getNodes()){
+                if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()] && v.getValue()!=((Integer)1).MAX_VALUE){
+                    key[v.getKey().getKey()]= v.getValue();
+                    pred[v.getKey().getKey()]= graph.get(u).getKey();
+                }
+            }
+            color[u]= 1;
+        }
+
+        return key;
+    }
+
+     */
 
     private String from;
 

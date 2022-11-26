@@ -5,6 +5,7 @@ import javafx.animation.PathTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
@@ -17,6 +18,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -76,11 +78,21 @@ public class RappiandoController implements Initializable {
             if(addNodeTBTN.isSelected()) {
                 tempPane.getChildren().clear();
                 graph.addNode(mouseEvent.getX() ,mouseEvent.getY(),nodesCounter+"");
-                addNodeTBTN.setSelected(false);
+                deSelect();
                 getGraphPane(tempPane);
                 nodesCounter=nodesCounter+1;
-            }else {
+            } else if (dijkstraBTN.isSelected()) {
                 animatePath(tempPane,graph.getFrom(),graph.getTo());
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                deSelect();
+                            }
+                        },
+                        5000
+                );
+            } else {
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);
             }
@@ -115,17 +127,19 @@ public class RappiandoController implements Initializable {
         tempPane.setPrefWidth(820);
         tempPane.setPrefHeight(1420);
         HelloApplication.showTransparentWindow("dijkstra.fxml");
-        dijkstraBTN.setSelected(false);
     }
 
     @FXML
     void prim(ActionEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Prim!");
+        alert.setHeaderText("Select a nodo in which you want to perform prim");
+        alert.showAndWait();
     }
     @FXML
     void addEdge(ActionEvent event) {
         HelloApplication.showTransparentWindow("addEdge.fxml");
-        addEdgeSBTN.setSelected(false);
+        deSelect();
     }
 
     @FXML
@@ -142,13 +156,13 @@ public class RappiandoController implements Initializable {
                 graph.deleteEdge(edge.source.name,edge.destination.name);
                 pane.getChildren().clear();
                 getGraphPane(pane);
-                deleteEdgeTBTN.setSelected(false);
+                deSelect();
             }
             if(editEdgeBTN.isSelected()){
                 graph.setFrom(edge.source.name);
                 graph.setTo(edge.destination.name);
                 HelloApplication.showTransparentWindow("editEdge.fxml");
-                editEdgeBTN.setSelected(false);
+                deSelect();
                 pane.getChildren().clear();
                 getGraphPane(pane);
             }
@@ -163,6 +177,15 @@ public class RappiandoController implements Initializable {
                 line.getScene().setCursor(Cursor.DEFAULT);
             }
         });
+    }
+    public void deSelect(){
+        deleteNodeTBTN.setSelected(false);
+        addEdgeSBTN.setSelected(false);
+        addNodeTBTN.setSelected(false);
+        editEdgeBTN.setSelected(false);
+        deleteEdgeTBTN.setSelected(false);
+        dijkstraBTN.setSelected(false);
+        primTBTN.setSelected(false);
     }
 
     void getGraphPane(AnchorPane tempPane){
@@ -193,9 +216,11 @@ public class RappiandoController implements Initializable {
             }
             else if(deleteNodeTBTN.isSelected()){
                 graph.deleteNode(node.name);
-                deleteNodeTBTN.setSelected(false);
+                deSelect();
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);
+            } else if (primTBTN.isSelected()) {
+                //graph.
             }
         });
         circle.setOnMouseReleased(mouseEvent -> {
@@ -249,12 +274,11 @@ public class RappiandoController implements Initializable {
                 }
                 graph.resetNodesVisited();
                 PathTransition pathTransition = new PathTransition();
-                Rectangle rectangle = new Rectangle(0, 0, 10, 10);
+                Rectangle rectangle = new Rectangle(0, 0, 30, 30);
 
-                //Image img = new Image("C:\\Users\\Lenovo\\Desktop\\Proyecto Discretas\\Rappi_ando\\Repartidor.png");
-                System.out.println("Catre");
-                //rectangle.setFill(new ImagePattern(img));
-                rectangle.setFill(Color.DARKVIOLET);
+                Image img = new Image(new File("src/main/resources/com/example/rappi_ando/Repartidor.png").toURI().toString());
+                rectangle.setFill(new ImagePattern(img));
+                //rectangle.setFill(Color.DARKVIOLET);
                 pane.getChildren().add(rectangle);
                 pathTransition.setNode(rectangle);
 
