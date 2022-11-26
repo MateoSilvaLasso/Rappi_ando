@@ -1,24 +1,21 @@
 package com.example.rappi_ando.model;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
-public class Graph{
-    public boolean isFlag() {
-        return flag;
-    }
+public class Graph {
 
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
+    private ArrayList<Node> nodes = new ArrayList();
+    private AdjEdges adj = new AdjEdges(true);
 
-    private boolean flag=false;
 
     private static final Graph instance = new Graph();
 
     private Graph(){}
 
-    public static Graph getInstance(){
+    public static Graph getInstance() {
         return instance;
     }
 
@@ -28,7 +25,7 @@ public class Graph{
     void addNode(double x,double y,String name){
         Node temp = new Node(x,y,name);
         nodes.add(temp);
-        System.out.println(x+" y "+y);
+        System.out.println(x + " y " + y);
         System.out.println(("Node Added Successfully"));
     }
     Node getNode(String from){
@@ -39,29 +36,30 @@ public class Graph{
         }
         return null;
     }
+
     String SearchNode(String node) {
-        for(Node i:nodes){
-            if(i.name.equals(node)){
-                return ("X coordinate:"+i.x+"\n"+"Y coordinate:"+i.y);
+        for (Node i : nodes) {
+            if (i.name.equals(node)) {
+                return ("X coordinate:" + i.x + "\n" + "Y coordinate:" + i.y);
             }
         }
         return ("Node not Found");
     }
 
-    String DeleteNode(String node){
-        for(Node n:nodes){
-            if(n.name.equals(node)){
+    String DeleteNode(String node) {
+        for (Node n : nodes) {
+            if (n.name.equals(node)) {
                 adj.DeleteNo(n);
                 nodes.remove(n);
-                return  "Node Deleted";
+                return "Node Deleted";
             }
         }
         return "Node Doesn't exist";
     }
 
-    String ModifyNode(String node,double x,double y){
-        for(Node i:nodes){
-            if(i.name.equals(node)){
+    String ModifyNode(String node, double x, double y) {
+        for (Node i : nodes) {
+            if (i.name.equals(node)) {
                 i.x = x;
                 i.y = y;
                 return ("Node Modified");
@@ -70,9 +68,9 @@ public class Graph{
         return ("Node not Found");
     }
 
-    String addEdge(String from,String to,double weight){
-        Node fromNode=null,toNode=null;
-        if(!from.equals(to)) {
+    String addEdge(String from, String to, double weight) {
+        Node fromNode = null, toNode = null;
+        if (!from.equals(to)) {
             for (Node i : nodes) {
                 if (i.name.equals(from)) {
                     fromNode = i;
@@ -90,113 +88,187 @@ public class Graph{
                 adj.addEdge(fromNode, toNode, weight);
                 return ("Edge added Successfully");
             }
-        }else {
+        } else {
             return "The nodes from and to cannot be the same";
         }
     }
 
-    String SearchEdge(String from,String to){
-        Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
+    String SearchEdge(String from, String to) {
+        Node fromNode = null, toNode = null;
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 fromNode = i;
             }
-            if(i.name.equals(to)){
+            if (i.name.equals(to)) {
                 toNode = i;
             }
         }
-        if(fromNode == null || toNode == null) {
+        if (fromNode == null || toNode == null) {
             return ("Edge Not Found");
-        }
-        else
-        {
-            if(adj.hasEdge(fromNode, toNode)){
-                return ("Edge Found \n"+"Weight is "+adj.Weight(fromNode,toNode));
-            }
-            else
+        } else {
+            if (adj.hasEdge(fromNode, toNode)) {
+                return ("Edge Found \n" + "Weight is " + adj.Weight(fromNode, toNode));
+            } else
                 return ("Edge Not Found");
         }
     }
 
-    String ModifyEdge(String from,String to,double weight){
-        Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
+    String ModifyEdge(String from, String to, double weight) {
+        Node fromNode = null, toNode = null;
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 fromNode = i;
             }
-            if(i.name.equals(to)){
+            if (i.name.equals(to)) {
                 toNode = i;
             }
         }
-        if(fromNode == null || toNode == null)
+        if (fromNode == null || toNode == null)
             return ("Edge not Found");
         else {
-            adj.ModifyEdgeWeight(fromNode, toNode,weight);
+            adj.ModifyEdgeWeight(fromNode, toNode, weight);
             return ("Edge Modified Successfully");
         }
     }
-    String DeleteEdge(String from,String to){
-        Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
+
+    String DeleteEdge(String from, String to) {
+        Node fromNode = null, toNode = null;
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 fromNode = i;
             }
-            if(i.name.equals(to)){
+            if (i.name.equals(to)) {
                 toNode = i;
             }
         }
-        if(fromNode == null || toNode == null){
+        if (fromNode == null || toNode == null) {
             return ("Edge not Found");
-        }
-        else if(fromNode == toNode){
+        } else if (fromNode == toNode) {
             return ("Both Nodes are same!");
-        }
-        else {
+        } else {
 
-            if(adj.DeleteEd(fromNode, toNode)){
+            if (adj.DeleteEd(fromNode, toNode)) {
                 return ("Edge deleted");
-            }
-            else
+            } else
                 return ("Edge Not Found");
         }
     }
 
-    String getPath(String from,String to){
+    String getPath(String from, String to) {
         String output;
-        Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
+        Node fromNode = null, toNode = null;
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 fromNode = i;
             }
-            if(i.name.equals(to)){
-                toNode =i;
+            if (i.name.equals(to)) {
+                toNode = i;
             }
         }
-        output = adj.DijkstraShortestPath(fromNode,toNode);
+        output = adj.DijkstraShortestPath(fromNode, toNode);
         adj.resetNodesVisited();
         return output;
     }
 
-    LinkedList<Node> getNodes(){
+    ArrayList<Node> getNodes() {
         return nodes;
     }
-    public Dijkstra getAdj(){
+
+    public AdjEdges getAdj() {
         return adj;
     }
 
-    Stack<Node> getNodePath(String from,String to){
-        Node fromNode=null,toNode=null;
-        for (Node i :nodes) {
-            if(i.name.equals(from)){
+    Stack<Node> getNodePath(String from, String to) {
+        Node fromNode = null, toNode = null;
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 fromNode = i;
             }
-            if(i.name.equals(to)){
+            if (i.name.equals(to)) {
                 toNode = i;
             }
         }
-        return adj.animatePath(fromNode,toNode);
+        return adj.animatePath(fromNode, toNode);
     }
+
+    void saveData(String path) {
+        try {
+            ArrayList<Edge> edgeArrayList = new ArrayList<>();
+            adj.copyEdge(edgeArrayList);
+            FileWriter fos = new FileWriter(path);
+            fos.write(nodes.size()+"\n");
+            for(Node n : nodes){
+                fos.write(n.x+" "+n.y+" "+n.name+"\n");
+            }
+            fos.write(edgeArrayList.size()+"");
+            fos.write("\n");
+            for(Edge e :edgeArrayList){
+                fos.write(e.source.name+" "+e.destination.name+" "+e.weight+"\n");
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+    String loadData(String path) {
+        try {
+            FileInputStream fis = new FileInputStream(path);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            String line;
+            int counter=0;
+            boolean found=false;
+            int no_of_nodes,no_of_edges;
+            while ((line = reader.readLine()) != null) {
+                String[] tem = line.split(" ");
+                if(tem.length==1 && counter==0){
+                    try {
+                        no_of_nodes = Integer.parseInt(tem[0]);
+                    } catch (NumberFormatException e) {
+                        return "Invalid Input";
+                    }
+                }else if(tem.length==1){
+                    found=true;
+                    try {
+                        no_of_edges = Integer.parseInt(tem[0]);
+                    } catch (NumberFormatException e) {
+                        return "Invalid Input";
+                    }
+                }else if(!found){
+                    String name=tem[2];
+                    double x, y;
+                    try {
+                        x = Double.parseDouble(tem[0]);
+                        y = Double.parseDouble(tem[1]);
+                    } catch (NumberFormatException e) {
+                        return "Invalid Input";
+                    }
+                    addNode(x, y, name);
+                } else if(found){
+                    String from = tem[0];
+                    String to = tem[1];
+                    double weight;
+                    try {
+                        weight = Double.parseDouble(tem[2]);
+                    } catch (NumberFormatException e) {
+                        return "Invalid Input";
+                    }
+                    addEdge(from, to, weight);
+                }
+                counter++;
+            }
+            reader.close();
+        }
+        catch (FileNotFoundException fe){
+            return ("File not Found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "Values Imported";
+    }
+}
 
     /*
     public Node<T> searchNode(int key){

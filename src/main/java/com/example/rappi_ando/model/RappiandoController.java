@@ -59,6 +59,8 @@ public class RappiandoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        graph.loadData("Data");
+        nodesCounter=graph.getNodes().size();
         showGraph();
     }
     void showGraph(){
@@ -122,7 +124,6 @@ public class RappiandoController implements Initializable {
 
         for(Edge e : edgeArrayList){
             tempPane.getChildren().addAll(e.getLine(),e.getText());
-            //enableEdgeDelete(pane, e.getLine(), e, scale);
         }
         for(int i=0;i<graph.getNodes().size();i++){
             tempPane.getChildren().add(graph.getNodes().get(i).getCircle());
@@ -130,7 +131,7 @@ public class RappiandoController implements Initializable {
             enableDrag(tempPane, graph.getNodes().get(i).getCircle(), graph.getNodes().get(i));
 
         }
-
+        graph.saveData("Data");
     }
     private void enableDrag(AnchorPane tempPane,final Circle circle,Node node) {
         final Delta dragDelta = new Delta();
@@ -163,21 +164,6 @@ public class RappiandoController implements Initializable {
         circle.setOnMouseReleased(mouseEvent -> {
             if(!deleteNodeTBTN.isSelected()&& circle.getScene() != null){
                 circle.getScene().setCursor(Cursor.HAND);
-            }else if(addEdgeSBTN.isSelected()) {
-                endX.unbind();
-                endY.unbind();
-                TextInputDialog td = new TextInputDialog("");
-                for (Node node1 : graph.getNodes()) {
-                    if (isInside(mouseEvent.getX(), mouseEvent.getY(), node1)) {
-                        td.setHeaderText("Enter Weight");
-                        td.showAndWait();
-                        double weight = Double.parseDouble(td.getEditor().getText());
-                        graph.addEdge(source[0], node1.name, weight);
-                    }
-                }
-                tempPane.getChildren().clear();
-                getGraphPane(tempPane);
-
             }
         });
         circle.setOnMouseDragged(mouseEvent -> {

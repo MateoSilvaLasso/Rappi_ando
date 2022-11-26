@@ -35,7 +35,6 @@ public class AddEdgeController {
         weightFT.setText("");
         Stage currentStage = (Stage) weightFT.getScene().getWindow();
         currentStage.hide();
-        Graph.getInstance().setFlag(true);
     }
 
     @FXML

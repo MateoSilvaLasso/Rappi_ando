@@ -29,8 +29,6 @@ public class HelloApplication extends Application {
                 Parent node = fxmlLoader.load();
                 Scene scene = new Scene(node);
                 Stage window = new Stage();
-                Image image = new Image("C:\\Users\\Lenovo\\Desktop\\Proyecto Discretas\\Rappi_ando\\src\\main\\resources\\com\\example\\rappi_ando\\Logo.png");
-                window.getIcons().add(image);
                 window.setScene(scene);
                 window.show();
         }catch (IOException ex){
@@ -49,8 +47,6 @@ public class HelloApplication extends Application {
                 addEdge.setTitle("Rappi_ando!");
                 addEdge.setX(600);
                 addEdge.setY(250);
-                Image image = new Image("C:\\Users\\Lenovo\\Desktop\\Proyecto Discretas\\Rappi_ando\\src\\main\\resources\\com\\example\\rappi_ando\\Logo.png");
-                addEdge.getIcons().add(image);
                 addEdge.setScene(scene);
                 addEdge.show();
             }else {

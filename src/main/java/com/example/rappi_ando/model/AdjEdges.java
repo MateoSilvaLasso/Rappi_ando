@@ -8,11 +8,11 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.Stack;
 
-class Dijkstra {
+class AdjEdges {
     private Set<Node> nodes;
     private boolean directed;
 
-    Dijkstra(boolean directed) {
+    AdjEdges(boolean directed) {
         this.directed = directed;
         this.nodes = new HashSet();
     }
