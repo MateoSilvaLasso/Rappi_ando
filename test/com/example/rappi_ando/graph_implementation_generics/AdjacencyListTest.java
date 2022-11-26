@@ -58,6 +58,7 @@ class AdjacencyListTest{
         graph.addEdge(0, 1 , 10);
         graph.addEdge(1, 2 , 5);
         graph.addEdge(2,0,20);
+        //graph.addEdge(2,0,2);
         //graph.addEdge(0,0,1);
     }
 
@@ -286,4 +287,32 @@ class AdjacencyListTest{
         assertEquals(a[1],5);
         assertEquals(a[2],0);
     }
+
+    //test for method kruskal
+    @Test
+    public void kruskalTest1(){
+        setUp7();
+        ArrayList<Integer> a=graph.kruskal();
+        assertEquals(a.get(0),2);
+        assertEquals(a.get(1),5);
+    }
+
+    @Test
+    public void kruskalTest2(){
+        setUp5();
+        ArrayList<Integer> a=graph.kruskal();
+        assertEquals(a.get(0),5);
+        assertEquals(a.get(1),10);
+    }
+
+    @Test
+    public void kruskalTest3(){
+        setUp4();
+        ArrayList<Integer> a=graph.kruskal();
+        assertEquals(a.get(0),5);
+        assertEquals(a.get(1),10);
+
+    }
+
+
 }

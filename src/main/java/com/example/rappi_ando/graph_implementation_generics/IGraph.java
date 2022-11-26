@@ -23,5 +23,15 @@ public interface IGraph<T> {
     public ArrayList<Node<T>> getGraph();
 
     public Node<T> searchNode(int key);
+
+    public void makeSet();
+
+    public int find(int i);
+
+    public void union(int i, int j);
+
+    public ArrayList<Integer> kruskal();
+
+
 }
 

@@ -7,6 +7,7 @@ import javafx.util.*;
 
 public class AdjacencyList<T> implements IGraph<T>{
     private ArrayList<Node<T>> graph;
+    private int[] parent;
     private int time;
 
     public AdjacencyList(){
@@ -217,6 +218,56 @@ public class AdjacencyList<T> implements IGraph<T>{
 
         return key;
     }
+
+    //disjoint sets
+
+    public void makeSet(){
+        parent= new int[graph.size()];
+
+        for(int i=0; i< parent.length; i++){
+            parent[i]=i;
+        }
+    }
+
+    public int find(int i){
+        while(parent[i]!=i) i=parent[i];
+        return i;
+    }
+
+    public void union(int i, int j){
+        int a= find(i);
+        int b= find(j);
+
+        parent[a]=b;
+    }
+
+    public ArrayList<Integer> kruskal(){
+        ArrayList<Integer> weights= new ArrayList<>();
+        makeSet();
+        int edgeCounter=0;
+
+        while(edgeCounter<graph.size()-1){
+            int min=((Integer)1).MAX_VALUE, a=-1, b=-1;
+            for(int i=0; i< graph.size(); i++){
+                for(int j=0; j<graph.get(i).getNodes().size(); j++){
+                    if(find(graph.get(i).getKey())!=find(graph.get(i).getNodes().get(j).getKey().getKey()) && graph.get(i).getNodes().get(j).getValue()<min){
+                        min=graph.get(i).getNodes().get(j).getValue();
+                        a=graph.get(i).getKey();
+                        b=graph.get(i).getNodes().get(j).getKey().getKey();
+                    }
+                }
+            }
+
+            union(a,b);
+            System.out.printf("Edge %d:(%d, %d) cost:%d \n",
+                    edgeCounter, a, b, min);
+            weights.add(min);
+            edgeCounter++;
+        }
+
+        return weights;
+    }
+
     @Override
     public ArrayList<Node<T>> getGraph(){
         return graph;
