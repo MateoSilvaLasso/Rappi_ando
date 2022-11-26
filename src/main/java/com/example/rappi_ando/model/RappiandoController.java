@@ -5,7 +5,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
@@ -20,17 +19,13 @@ import java.util.ResourceBundle;
 
 public class RappiandoController implements Initializable {
 
-    private static final RappiandoController instance = new RappiandoController();
-    public RappiandoController(){}
-
-    public Graph getGraph() {
-        return graph;
-    }
-
     private Graph graph = Graph.getInstance();
 
     @FXML
     private ToggleButton addEdgeSBTN;
+
+    @FXML
+    private ToggleButton editEdgeBTN;
 
     @FXML
     private ToggleButton addNodeTBTN;
@@ -80,7 +75,6 @@ public class RappiandoController implements Initializable {
                 getGraphPane(tempPane);
             }
         });
-        System.out.println("chao");
         paneAP.getChildren().add(tempPane);
     }
     @FXML
@@ -95,7 +89,10 @@ public class RappiandoController implements Initializable {
         alert.setHeaderText("Click the node you want to remove");
         alert.showAndWait();
     }
+    @FXML
+    void editEdge(ActionEvent event) {
 
+    }
     @FXML
     void dijkstra(ActionEvent event) {
 
@@ -108,6 +105,7 @@ public class RappiandoController implements Initializable {
     @FXML
     void addEdge(ActionEvent event) {
         HelloApplication.showTransparentWindow("addEdge.fxml");
+        addEdgeSBTN.setSelected(false);
     }
 
     @FXML
@@ -117,6 +115,35 @@ public class RappiandoController implements Initializable {
         alert.setHeaderText("Click on where you want to place the new node");
         alert.showAndWait();
     }
+    private void enableEditDelete(AnchorPane pane, final Line line, Edge edge){
+        line.setOnMouseReleased(event -> {
+            line.getScene().setCursor(Cursor.HAND);
+            if(deleteEdgeTBTN.isSelected()){
+                graph.deleteEdge(edge.source.name,edge.destination.name);
+                pane.getChildren().clear();
+                getGraphPane(pane);
+                deleteEdgeTBTN.setSelected(false);
+            }
+            if(editEdgeBTN.isSelected()){
+                graph.setFrom(edge.source.name);
+                graph.setTo(edge.destination.name);
+                HelloApplication.showTransparentWindow("editEdge.fxml");
+                pane.getChildren().clear();
+                getGraphPane(pane);
+                editEdgeBTN.setSelected(false);
+            }
+        });
+        line.setOnMouseEntered(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                line.getScene().setCursor(Cursor.HAND);
+            }
+        });
+        line.setOnMouseExited(mouseEvent -> {
+            if (!mouseEvent.isPrimaryButtonDown()) {
+                line.getScene().setCursor(Cursor.DEFAULT);
+            }
+        });
+    }
 
     void getGraphPane(AnchorPane tempPane){
         ArrayList<Edge> edgeArrayList = new ArrayList<>();
@@ -124,6 +151,7 @@ public class RappiandoController implements Initializable {
 
         for(Edge e : edgeArrayList){
             tempPane.getChildren().addAll(e.getLine(),e.getText());
+            enableEditDelete(tempPane,e.getLine(),e);
         }
         for(int i=0;i<graph.getNodes().size();i++){
             tempPane.getChildren().add(graph.getNodes().get(i).getCircle());
@@ -155,7 +183,7 @@ public class RappiandoController implements Initializable {
                 tempPane.getChildren().add(newEdge);
             }
             else if(deleteNodeTBTN.isSelected()){
-                graph.DeleteNode(node.name);
+                graph.deleteNode(node.name);
                 deleteNodeTBTN.setSelected(false);
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);

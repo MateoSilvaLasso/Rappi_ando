@@ -60,22 +60,6 @@ class AdjacencyListTest{
         graph.addEdge(2,0,20);
     }
 
-    public void setUp6(){
-        graph= new AdjacencyList<>();
-        graph.addVertex(0, 0);
-        graph.addVertex(1, 1);
-        graph.addVertex(2, 2);
-        graph.addVertex(3,3);
-        graph.addVertex(4,4);
-
-        //Adding the edges
-        graph.addEdge(0, 1 , 10);
-        graph.addEdge(1, 2 , 5);
-        graph.addEdge(2,0,20);
-        graph.addEdge(3,4,1);
-
-    }
-
     // Tests of the addVertex method
     @Test
     public void addVertexTest1() {
@@ -171,10 +155,10 @@ class AdjacencyListTest{
         assertEquals(graph.DFS(),2);
     }
 
-    //Test for the method Dijkstra
+    //Tests for the method Dijkstra
 
     @Test
-    public void Dijkstra1(){
+    public void DijkstraTest1(){
         setUp5();
         ArrayList<Integer> a= graph.dijkstra(0);
         assertEquals(a.get(0),0);
@@ -183,12 +167,83 @@ class AdjacencyListTest{
     }
 
     @Test
-    public void Dijkstra2(){
+    public void DijkstraTest2(){
         setUp5();
         ArrayList<Integer> a= graph.dijkstra(1);
-        for(Integer v: a){
-            
-        }
+        assertEquals(a.get(0),25);
+        assertEquals(a.get(1),0);
+        assertEquals(a.get(2),5);
     }
 
+    @Test
+    public void DijkstraTest3(){
+        setUp5();
+        ArrayList<Integer> a= graph.dijkstra(2);
+        assertEquals(a.get(0),20);
+        assertEquals(a.get(1),30);
+        assertEquals(a.get(2),0);
+    }
+
+    //Test for method FloydWarsall
+
+    @Test
+    public void floydWarshallTest1(){
+        setUp5();
+        int[][] a= graph.floydWarshall();
+        //We try the diagonals that should be equal to zero because there aren't cycles
+        assertEquals(a[0][0],0);
+        assertEquals(a[1][1],0);
+        assertEquals(a[2][2],0);
+    }
+
+    @Test
+    public void floydWarshallTest2(){
+        setUp5();
+        int[][] a= graph.floydWarshall();
+
+        //equalsToDijkstraTest1
+        assertEquals(a[0][0],0);
+        assertEquals(a[0][1],10);
+        assertEquals(a[0][2],15);
+    }
+
+    @Test
+    public void floydWarshallTest3(){
+        setUp6();
+        int[][]a= graph.floydWarshall();
+        assertEquals(a[0][0],0);
+        assertEquals(a[0][1],10);
+        assertEquals(a[0][2],15);
+        assertEquals(a[0][3],((Integer)1).MAX_VALUE); //there aren't paths
+        assertEquals(a[3][0],((Integer)1).MAX_VALUE);
+    }
+
+    //Test for method prim
+
+    @Test
+    public void primTest1(){
+        setUp7();
+        int[] a= graph.prim(0,0);
+        assertEquals(a[0],0);//go from 0 to 0 is the least path 0
+        assertEquals(a[1],2);//go from 0 to 1 there are two ways but the shortestPath is two
+        assertEquals(a[2],20);//only one path
+    }
+
+    @Test
+    public void primTest2(){
+        setUp7();
+        int[] a= graph.prim(1,0);
+        assertEquals(a[0],10);
+        assertEquals(a[1],0);
+        assertEquals(a[2],5);
+    }
+
+    @Test
+    public void primTest3(){
+        setUp7();
+        int[] a= graph.prim(2,0);
+        assertEquals(a[0],20);
+        assertEquals(a[1],5);
+        assertEquals(a[2],0);
+    }
 }

@@ -19,7 +19,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
+                        <ImageView fitHeight="125.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
                            <image>
                               <Image url="@LogoRappiando.png" />
                            </image>
@@ -29,7 +29,7 @@
                         <Insets />
                      </HBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="610.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
                      <HBox.margin>
                         <Insets bottom="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
@@ -44,7 +44,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
                         <ToggleButton fx:id="addEdgeSBTN" mnemonicParsing="false" onAction="#addEdge" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Add Edge" textFill="WHITE">
@@ -52,7 +52,15 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </ToggleButton>
+                        <ToggleButton fx:id="editEdgeBTN" mnemonicParsing="false" onAction="#editEdge" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Edit Edge" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
                         <ToggleButton fx:id="deleteEdgeTBTN" mnemonicParsing="false" onAction="#deleteEdge" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Delete Edge" textFill="WHITE">
@@ -60,7 +68,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
                         <ToggleButton mnemonicParsing="false" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
@@ -68,7 +76,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
                         <ToggleButton fx:id="primTBTN" mnemonicParsing="false" onAction="#prim" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Prim" textFill="WHITE">
@@ -76,7 +84,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="15.0" />
+                              <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
                      </children>

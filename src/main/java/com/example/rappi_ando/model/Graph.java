@@ -1,7 +1,6 @@
 package com.example.rappi_ando.model;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -43,7 +42,7 @@ public class Graph {
         return ("Node not Found");
     }
 
-    String DeleteNode(String node) {
+    String deleteNode(String node) {
         for (Node n : nodes) {
             if (n.name.equals(node)) {
                 adj.DeleteNo(n);
@@ -54,7 +53,7 @@ public class Graph {
         return "Node Doesn't exist";
     }
 
-    String ModifyNode(String node, double x, double y) {
+    String modifyNode(String node, double x, double y) {
         for (Node i : nodes) {
             if (i.name.equals(node)) {
                 i.x = x;
@@ -90,7 +89,7 @@ public class Graph {
         }
     }
 
-    String SearchEdge(String from, String to) {
+    String searchEdge(String from, String to) {
         Node fromNode = null, toNode = null;
         for (Node i : nodes) {
             if (i.name.equals(from)) {
@@ -110,7 +109,7 @@ public class Graph {
         }
     }
 
-    String ModifyEdge(String from, String to, double weight) {
+    String modifyEdge(String from, String to, double weight) {
         Node fromNode = null, toNode = null;
         for (Node i : nodes) {
             if (i.name.equals(from)) {
@@ -128,7 +127,7 @@ public class Graph {
         }
     }
 
-    String DeleteEdge(String from, String to) {
+    String deleteEdge(String from, String to) {
         Node fromNode = null, toNode = null;
         for (Node i : nodes) {
             if (i.name.equals(from)) {
@@ -265,6 +264,26 @@ public class Graph {
         }
         return "Values Imported";
     }
+
+    private String from;
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    private String to;
 }
 
     /*

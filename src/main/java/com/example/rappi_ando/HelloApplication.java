@@ -1,15 +1,9 @@
 package com.example.rappi_ando;
 
-import com.example.rappi_ando.model.RappiandoController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,6 +12,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     private static Stage addEdge;
+    private static Stage editEdge;
 
     @Override
     public void start(Stage stage)  {
@@ -37,10 +32,10 @@ public class HelloApplication extends Application {
     }
     public static void showTransparentWindow(String fxml){
         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxml));
+            Parent node = fxmlLoader.load();
+            Scene scene = new Scene(node);
             if(fxml.equals("addEdge.fxml") && addEdge==null) {
-                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource(fxml));
-                Parent node = fxmlLoader.load();
-                Scene scene = new Scene(node);
                 addEdge = new Stage();
                 addEdge.initStyle(StageStyle.TRANSPARENT);
                 scene.setFill(Color.TRANSPARENT);
@@ -49,9 +44,21 @@ public class HelloApplication extends Application {
                 addEdge.setY(250);
                 addEdge.setScene(scene);
                 addEdge.show();
-            }else {
+            }else if(fxml.equals("addEdge.fxml")) {
                 addEdge.show();
                 addEdge.toFront();
+            }else if(fxml.equals("editEdge.fxml")&&editEdge==null){
+                editEdge = new Stage();
+                editEdge.initStyle(StageStyle.TRANSPARENT);
+                scene.setFill(Color.TRANSPARENT);
+                editEdge.setTitle("Rappi_ando!");
+                editEdge.setX(600);
+                editEdge.setY(250);
+                editEdge.setScene(scene);
+                editEdge.show();
+            } else if (fxml.equals("editEdge.fxml")) {
+                editEdge.show();
+                editEdge.toFront();
             }
         }catch (IOException ex){
             ex.printStackTrace();
