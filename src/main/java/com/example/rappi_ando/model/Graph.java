@@ -488,39 +488,41 @@ public class Graph {
 
         return closestReachableNode;
     }
-    private Stack<Node> prim(AnchorPane pane){
-        return null;
-    }
 
-    /*
-    private int[] prim(String r) {
-        int[] key= new int[graph.size()];
-        int [] color= new int[graph.size()];
-        int [] pred= new int[graph.size()];
-        for(com.example.rappi_ando.graph_implementation_generics.Node<T> u: graph){
-            key[u.getKey()]= ((Integer)1).MAX_VALUE;
-            color[u.getKey()]=0;
+    public ArrayList<Pair<Node,Node>> prim(Node start){
+
+        HashMap<Node,Double> weights = new HashMap<>();
+        HashMap<Node,Boolean> wasVisited = new HashMap<>();
+        ArrayList<Edge> edges = new ArrayList<>();
+        ArrayList<Pair<Node,Node>> where= new ArrayList<>();
+        for(Node u: nodes){
+            weights.put(u,10000000.0);//que tendra como value? ah si xd
+            wasVisited.put(u,false);
         }
+        Set<Node> nodes = new HashSet<>();
 
-        key[r]=0;
-        pred[r]=-1;
-        PriorityQueue<String> q= new PriorityQueue<>();
-        q.add(r);
-        while(!q.isEmpty()){
-            String u= q.poll();
-            for(Pair<com.example.rappi_ando.graph_implementation_generics.Node<T>,Integer> v: graph.get(u).getNodes()){
-                if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()] && v.getValue()!=((Integer)1).MAX_VALUE){
-                    key[v.getKey().getKey()]= v.getValue();
-                    pred[v.getKey().getKey()]= graph.get(u).getKey();
+        //weights.replace(start,(double)0);
+
+        Queue<Node> q= new LinkedList<>();
+        q.add(start);
+        while (!q.isEmpty()){
+            Node u= q.poll();
+            Node i=null;
+            Node j=null;
+            for(Edge a: u.edges){
+                if(!wasVisited.get(u) && a.weight<weights.get(u)){
+                    weights.replace(u, a.weight);
+                    i=a.source;
+                    j=a.destination;
+                    //q.add(a.destination);
+                    System.out.println("Hola");
                 }
             }
-            color[u]= 1;
+            where.add(new Pair<>(i,j));
+            wasVisited.replace(u,true);
         }
-
-        return key;
+        return where;
     }
-
-     */
 
     private String from;
 

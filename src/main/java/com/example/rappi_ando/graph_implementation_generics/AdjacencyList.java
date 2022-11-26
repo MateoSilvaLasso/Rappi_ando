@@ -200,6 +200,8 @@ public class AdjacencyList<T> implements IGraph<T>{
             key[u.getKey()]= ((Integer)1).MAX_VALUE;
             color[u.getKey()]=0;
         }
+        //1 es visitada
+        //0 es no visitada
 
         key[r]=0;
         pred[r]=-1;
@@ -208,6 +210,7 @@ public class AdjacencyList<T> implements IGraph<T>{
         while(!q.isEmpty()){
             int u= q.poll();
             for(Pair<Node<T>,Integer> v: graph.get(u).getNodes()){
+                //si no es visitada y el peso de la arista es menor al peso que tengo en esa posicion
                 if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()] && v.getValue()!=((Integer)1).MAX_VALUE){
                     key[v.getKey().getKey()]= v.getValue();
                     pred[v.getKey().getKey()]= graph.get(u).getKey();

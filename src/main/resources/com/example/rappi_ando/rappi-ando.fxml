@@ -29,7 +29,7 @@
                         <Insets />
                      </HBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="650.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);">
                      <HBox.margin>
                         <Insets bottom="15.0" right="15.0" top="15.0" />
                      </HBox.margin>
@@ -71,15 +71,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
-                        <ToggleButton fx:id="dijkstraBTN" mnemonicParsing="false" onAction="#dijkstraA" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </ToggleButton>
-                        <ToggleButton fx:id="primTBTN" mnemonicParsing="false" onAction="#prim" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Prim" textFill="WHITE">
+                        <ToggleButton fx:id="dijkstraBTN" mnemonicParsing="false" onAction="#dijkstraA" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Minimum path" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

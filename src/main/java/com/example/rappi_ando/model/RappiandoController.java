@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.net.URL;
@@ -49,10 +50,13 @@ public class RappiandoController implements Initializable {
 
     @FXML
     private ScrollPane mapSP;
-
+    private boolean flag=false;
+/*
     @FXML
     private ToggleButton primTBTN;
 
+
+ */
     @FXML
     private ToggleButton dijkstraBTN;
 
@@ -83,15 +87,7 @@ public class RappiandoController implements Initializable {
                 nodesCounter=nodesCounter+1;
             } else if (dijkstraBTN.isSelected()) {
                 animatePath(tempPane,graph.getFrom(),graph.getTo());
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                deSelect();
-                            }
-                        },
-                        5000
-                );
+                deSelect();
             } else {
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);
@@ -185,7 +181,6 @@ public class RappiandoController implements Initializable {
         editEdgeBTN.setSelected(false);
         deleteEdgeTBTN.setSelected(false);
         dijkstraBTN.setSelected(false);
-        primTBTN.setSelected(false);
     }
 
     void getGraphPane(AnchorPane tempPane){
@@ -209,7 +204,7 @@ public class RappiandoController implements Initializable {
         final String[] source = new String[1];
         circle.setOnMousePressed(mouseEvent -> {
             // record a delta distance for the drag and drop operation.
-            if(!addNodeTBTN.isSelected() && !addEdgeSBTN.isSelected() && !deleteNodeTBTN.isSelected() && !deleteEdgeTBTN.isSelected()) {
+            if(!addNodeTBTN.isSelected() && !addEdgeSBTN.isSelected() && !deleteNodeTBTN.isSelected() && !deleteEdgeTBTN.isSelected()&& !dijkstraBTN.isSelected()) {
                 dragDelta.x = circle.getCenterX() - mouseEvent.getX();
                 dragDelta.y = circle.getCenterY() - mouseEvent.getY();
                 circle.getScene().setCursor(Cursor.MOVE);
@@ -219,9 +214,15 @@ public class RappiandoController implements Initializable {
                 deSelect();
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);
-            } else if (primTBTN.isSelected()) {
-                //graph.
-            }
+            } /*else if (primTBTN.isSelected()) {
+                ArrayList<Pair<Node,Node>> where= graph.prim(node);
+                for (Pair<Node,Node> n : where){
+                    if(n.getKey()!=null&&n.getValue()!=null) {
+                        System.out.println(n.getKey().name + " " + n.getValue().name);
+                    }
+                }
+
+            }*/
         });
         circle.setOnMouseReleased(mouseEvent -> {
             if(!deleteNodeTBTN.isSelected()&& circle.getScene() != null){
@@ -288,6 +289,6 @@ public class RappiandoController implements Initializable {
                 pathTransition.play();
             }
         }
-
+        deSelect();
     }
 }
