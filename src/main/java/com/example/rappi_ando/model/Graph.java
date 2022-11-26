@@ -13,24 +13,21 @@ public class Graph {
 
     private static final Graph instance = new Graph();
 
-    private Graph(){}
-
     public static Graph getInstance() {
         return instance;
     }
 
-    private LinkedList<Node> nodes = new LinkedList();
-    private Dijkstra adj = new Dijkstra(true);
-
-    void addNode(double x,double y,String name){
-        Node temp = new Node(x,y,name);
+    void addNode(double x, double y, String name) {
+        Node temp = new Node(x, y, name);
         nodes.add(temp);
         System.out.println(x + " y " + y);
         System.out.println(("Node Added Successfully"));
     }
-    Node getNode(String from){
-        for(Node i:nodes){
-            if(i.name.equals(from)){
+
+
+    Node getNode(String from) {
+        for (Node i : nodes) {
+            if (i.name.equals(from)) {
                 return i;
             }
         }
