@@ -7,7 +7,7 @@ import java.util.*;
 public class Graph {
 
     private ArrayList<Node> nodes = new ArrayList();
-    private AdjEdges adj = new AdjEdges(true);
+    private AdjEdges adj = new AdjEdges(false);
 
 
     private static final Graph instance = new Graph();
@@ -122,7 +122,7 @@ public class Graph {
         if (fromNode == null || toNode == null)
             return ("Edge not Found");
         else {
-            adj.ModifyEdgeWeight(fromNode, toNode, weight);
+            adj.modifyEdgeWeight(fromNode, toNode, weight);
             return ("Edge Modified Successfully");
         }
     }
@@ -161,9 +161,13 @@ public class Graph {
                 toNode = i;
             }
         }
-        output = adj.DijkstraShortestPath(fromNode, toNode);
-        adj.resetNodesVisited();
-        return output;
+        if (fromNode == null || toNode == null)
+            return ("Edge not Found");
+        else {
+            output = adj.DijkstraShortestPath(fromNode, toNode);
+            adj.resetNodesVisited();
+            return output;
+        }
     }
 
     ArrayList<Node> getNodes() {

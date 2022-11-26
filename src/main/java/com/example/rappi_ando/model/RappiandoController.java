@@ -1,6 +1,7 @@
 package com.example.rappi_ando.model;
 
 import com.example.rappi_ando.HelloApplication;
+import javafx.animation.PathTransition;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -8,13 +9,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 
 public class RappiandoController implements Initializable {
@@ -45,6 +51,9 @@ public class RappiandoController implements Initializable {
     @FXML
     private ToggleButton primTBTN;
 
+    @FXML
+    private ToggleButton dijkstraBTN;
+
     private DoubleProperty endX;
     private DoubleProperty endY;
     private Line newEdge ;
@@ -71,6 +80,7 @@ public class RappiandoController implements Initializable {
                 getGraphPane(tempPane);
                 nodesCounter=nodesCounter+1;
             }else {
+                animatePath(tempPane,graph.getFrom(),graph.getTo());
                 tempPane.getChildren().clear();
                 getGraphPane(tempPane);
             }
@@ -79,7 +89,10 @@ public class RappiandoController implements Initializable {
     }
     @FXML
     void deleteEdge(ActionEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Deleting edge");
+        alert.setHeaderText("Click the edge you want to delete");
+        alert.showAndWait();
     }
 
     @FXML
@@ -91,11 +104,18 @@ public class RappiandoController implements Initializable {
     }
     @FXML
     void editEdge(ActionEvent event) {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Editing edge");
+        alert.setHeaderText("Click the edge you want to edit");
+        alert.showAndWait();
     }
     @FXML
-    void dijkstra(ActionEvent event) {
-
+    void dijkstraA(ActionEvent event) {
+        AnchorPane tempPane = new AnchorPane();
+        tempPane.setPrefWidth(820);
+        tempPane.setPrefHeight(1420);
+        HelloApplication.showTransparentWindow("dijkstra.fxml");
+        dijkstraBTN.setSelected(false);
     }
 
     @FXML
@@ -128,9 +148,9 @@ public class RappiandoController implements Initializable {
                 graph.setFrom(edge.source.name);
                 graph.setTo(edge.destination.name);
                 HelloApplication.showTransparentWindow("editEdge.fxml");
+                editEdgeBTN.setSelected(false);
                 pane.getChildren().clear();
                 getGraphPane(pane);
-                editEdgeBTN.setSelected(false);
             }
         });
         line.setOnMouseEntered(mouseEvent -> {
@@ -171,17 +191,6 @@ public class RappiandoController implements Initializable {
                 dragDelta.y = circle.getCenterY() - mouseEvent.getY();
                 circle.getScene().setCursor(Cursor.MOVE);
             }
-            else if(addEdgeSBTN.isSelected()){
-                source[0] = node.name;
-                newEdge = new Line();
-                newEdge.setStartX(mouseEvent.getX());
-                newEdge.setStartY(mouseEvent.getY());
-                endX = new SimpleDoubleProperty(mouseEvent.getX());
-                endY = new SimpleDoubleProperty(mouseEvent.getY());
-                newEdge.endXProperty().bind(endX);
-                newEdge.endYProperty().bind(endY);
-                tempPane.getChildren().add(newEdge);
-            }
             else if(deleteNodeTBTN.isSelected()){
                 graph.deleteNode(node.name);
                 deleteNodeTBTN.setSelected(false);
@@ -202,10 +211,6 @@ public class RappiandoController implements Initializable {
                 node.y = (mouseEvent.getY() + dragDelta.y);
                 node.getText();
             }
-            if(addEdgeSBTN.isSelected()){
-                endX.set(mouseEvent.getX());
-                endY.set(mouseEvent.getY());
-            }
 
         });
         circle.setOnMouseEntered(mouseEvent -> {
@@ -225,6 +230,40 @@ public class RappiandoController implements Initializable {
         distance = Math.sqrt((x1-(node.x))*(x1-(node.x))+(y1-(node.y))*(y1-(node.y)));
         return distance < 10;
     }
+    void animatePath(Pane pane, String from, String to){
+        Node fromNode = graph.getNode(from);
+        Path path = new Path();
+        if(fromNode!=null) {
+            path.getElements().add(new MoveTo(fromNode.x, fromNode.y));
+            Stack<Node> nodeStack = graph.getNodePath(from, to);
+            if (nodeStack.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("");
+                alert.setContentText("No Path Exist");
+                alert.initOwner(pane.getScene().getWindow());
+                alert.show();
+            } else {
+                while (!nodeStack.isEmpty()) {
+                    Node node = nodeStack.pop();
+                    path.getElements().add(new LineTo(node.x, node.y));
+                }
+                graph.getAdj().resetNodesVisited();
+                PathTransition pathTransition = new PathTransition();
+                Rectangle rectangle = new Rectangle(0, 0, 10, 10);
 
+                //Image img = new Image("C:\\Users\\Lenovo\\Desktop\\Proyecto Discretas\\Rappi_ando\\Repartidor.png");
+                System.out.println("Catre");
+                //rectangle.setFill(new ImagePattern(img));
+                rectangle.setFill(Color.DARKVIOLET);
+                pane.getChildren().add(rectangle);
+                pathTransition.setNode(rectangle);
+
+                pathTransition.setDuration(Duration.seconds(2));
+                pathTransition.setPath(path);
+                pathTransition.setCycleCount(PathTransition.INDEFINITE);
+                pathTransition.play();
+            }
+        }
 
     }
+}

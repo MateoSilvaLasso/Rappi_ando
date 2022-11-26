@@ -53,6 +53,8 @@ public class EditEdgeController {
             alert1.setHeaderText("The weight of this edge has been changed");
             graph.modifyEdge(graph.getFrom(),graph.getTo(),weight);
             weightFT.setText("");
+            Stage currentStage = (Stage) weightFT.getScene().getWindow();
+            currentStage.hide();
         }
     }
 

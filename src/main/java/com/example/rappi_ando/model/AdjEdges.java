@@ -27,7 +27,7 @@ class AdjEdges {
 
     }
 
-    void ModifyEdgeWeight(Node a, Node b, double weight) {
+    void modifyEdgeWeight(Node a, Node b, double weight) {
         Iterator var5 = a.edges.iterator();
 
         Edge edge;
@@ -39,6 +39,7 @@ class AdjEdges {
             edge = (Edge)var5.next();
         } while(edge.source != a || edge.destination != b);
 
+        edge.setText(weight);
         edge.weight = weight;
     }
 

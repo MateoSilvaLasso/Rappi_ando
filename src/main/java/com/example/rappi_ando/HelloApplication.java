@@ -13,6 +13,9 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     private static Stage addEdge;
     private static Stage editEdge;
+    
+    private static Stage dijkstra;
+
 
     @Override
     public void start(Stage stage)  {
@@ -59,7 +62,20 @@ public class HelloApplication extends Application {
             } else if (fxml.equals("editEdge.fxml")) {
                 editEdge.show();
                 editEdge.toFront();
+            }else if(fxml.equals("dijkstra.fxml")&&dijkstra==null){
+                dijkstra = new Stage();
+                dijkstra.initStyle(StageStyle.TRANSPARENT);
+                scene.setFill(Color.TRANSPARENT);
+                dijkstra.setTitle("Rappi_ando!");
+                dijkstra.setX(600);
+                dijkstra.setY(250);
+                dijkstra.setScene(scene);
+                dijkstra.show();
+            } else if (fxml.equals("dijkstra.fxml")) {
+                dijkstra.show();
+                dijkstra.toFront();
             }
+            
         }catch (IOException ex){
             ex.printStackTrace();
         }

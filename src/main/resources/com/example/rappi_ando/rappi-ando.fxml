@@ -71,7 +71,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </ToggleButton>
-                        <ToggleButton mnemonicParsing="false" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
+                        <ToggleButton fx:id="dijkstraBTN" mnemonicParsing="false" onAction="#dijkstraA" style="-fx-background-color: #FA5E4D; -fx-background-radius: 10; -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1),10.0,0.0,0.0,10.0);" text="Dijkstra" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

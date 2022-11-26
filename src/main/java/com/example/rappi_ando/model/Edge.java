@@ -10,18 +10,29 @@ public class Edge {
     public Node destination;
     double weight;
     private Line line ;
+    private DoubleProperty startX;
+    private DoubleProperty startY;
+    private DoubleProperty endX;
+    private DoubleProperty endY;
+
+    public void setText(double weight) {
+        text.setText(weight+"");
+        text.xProperty().bind((startX.add(endX)).divide(2));
+        text.yProperty().bind((startY.add(endY)).divide(2));
+    }
+
     private Text text;
     Edge(Node s, Node d, double w) {
-        line = new Line();
+        line = new Line(100,100,100,100);
         text = new Text();
         source = s;
         destination = d;
         weight = w;
 
-        DoubleProperty startX = new SimpleDoubleProperty(source.x);
-        DoubleProperty startY = new SimpleDoubleProperty(source.y);
-        DoubleProperty endX = new SimpleDoubleProperty(destination.x);
-        DoubleProperty endY = new SimpleDoubleProperty(destination.y);
+        startX = new SimpleDoubleProperty(source.x);
+        startY = new SimpleDoubleProperty(source.y);
+        endX = new SimpleDoubleProperty(destination.x);
+        endY = new SimpleDoubleProperty(destination.y);
         line.startXProperty().bind(startX);
         line.startYProperty().bind(startY);
         line.endXProperty().bind(endX);
