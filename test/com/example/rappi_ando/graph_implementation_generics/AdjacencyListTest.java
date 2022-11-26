@@ -58,6 +58,40 @@ class AdjacencyListTest{
         graph.addEdge(0, 1 , 10);
         graph.addEdge(1, 2 , 5);
         graph.addEdge(2,0,20);
+        //graph.addEdge(0,0,1);
+    }
+
+    public void setUp6(){
+        graph= new AdjacencyList<>();
+        graph.addVertex(0, 0);
+        graph.addVertex(1, 1);
+        graph.addVertex(2, 2);
+        graph.addVertex(3,3);
+        graph.addVertex(4,4);
+
+        //Adding the edges
+        graph.addEdge(0, 1 , 10);
+        graph.addEdge(1, 2 , 5);
+        graph.addEdge(2,0,20);
+        graph.addEdge(3,4,1);
+
+    }
+
+    public void setUp7(){
+        graph = new AdjacencyList<Integer>();
+        //Adding the vertex
+        graph.addVertex(0, 0);
+        graph.addVertex(1, 1);
+        graph.addVertex(2, 2);
+
+        //Adding the edges
+        graph.addEdge(0, 1 , 10);
+        graph.addEdge(1, 2 , 5);
+        graph.addEdge(2,0,20);
+        graph.addEdge(2, 1 , 5);
+        graph.addEdge(1, 0 , 10);
+        graph.addEdge(0,2,20);
+        graph.addEdge(0,1,2);
     }
 
     // Tests of the addVertex method
@@ -153,6 +187,12 @@ class AdjacencyListTest{
     public void DFStest2(){
         setUp6();
         assertEquals(graph.DFS(),2);
+    }
+
+    @Test
+    public void DFStest3(){
+        setUp1();
+        assertEquals(graph.DFS(),0);
     }
 
     //Tests for the method Dijkstra
