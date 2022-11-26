@@ -57,6 +57,7 @@ class AdjacencyListTest{
         //Adding the edges
         graph.addEdge(0, 1 , 10);
         graph.addEdge(1, 2 , 5);
+        graph.addEdge(2,0,20);
     }
 
     // Tests of the addVertex method
