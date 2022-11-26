@@ -7,7 +7,7 @@ import java.util.*;
 public class Graph {
 
     private ArrayList<Node> nodes = new ArrayList();
-    private AdjEdges adj = new AdjEdges(false);
+    private Set<Node> nodes1= new HashSet();
 
 
     private static final Graph instance = new Graph();
@@ -19,8 +19,6 @@ public class Graph {
     void addNode(double x, double y, String name) {
         Node temp = new Node(x, y, name);
         nodes.add(temp);
-        System.out.println(x + " y " + y);
-        System.out.println(("Node Added Successfully"));
     }
 
 
@@ -45,7 +43,7 @@ public class Graph {
     String deleteNode(String node) {
         for (Node n : nodes) {
             if (n.name.equals(node)) {
-                adj.DeleteNo(n);
+                deleteNo(n);
                 nodes.remove(n);
                 return "Node Deleted";
             }
@@ -73,7 +71,6 @@ public class Graph {
                 }
                 if (i.name.equals(to)) {
                     toNode = i;
-                    System.out.println(toNode);
                 }
             }
             if (fromNode == null)
@@ -81,7 +78,7 @@ public class Graph {
             else if (toNode == null)
                 return ("To node not Found");
             else {
-                adj.addEdge(fromNode, toNode, weight);
+                addEdge(fromNode, toNode, weight);
                 return ("Edge added Successfully");
             }
         } else {
@@ -102,8 +99,8 @@ public class Graph {
         if (fromNode == null || toNode == null) {
             return ("Edge Not Found");
         } else {
-            if (adj.hasEdge(fromNode, toNode)) {
-                return ("Edge Found \n" + "Weight is " + adj.Weight(fromNode, toNode));
+            if (hasEdge(fromNode, toNode)) {
+                return ("Edge Found \n" + "Weight is " + weight(fromNode, toNode));
             } else
                 return ("Edge Not Found");
         }
@@ -122,7 +119,7 @@ public class Graph {
         if (fromNode == null || toNode == null)
             return ("Edge not Found");
         else {
-            adj.modifyEdgeWeight(fromNode, toNode, weight);
+            modifyEdgeWeight(fromNode, toNode, weight);
             return ("Edge Modified Successfully");
         }
     }
@@ -143,7 +140,7 @@ public class Graph {
             return ("Both Nodes are same!");
         } else {
 
-            if (adj.DeleteEd(fromNode, toNode)) {
+            if (deleteEd(fromNode, toNode)) {
                 return ("Edge deleted");
             } else
                 return ("Edge Not Found");
@@ -164,18 +161,14 @@ public class Graph {
         if (fromNode == null || toNode == null)
             return ("Edge not Found");
         else {
-            output = adj.DijkstraShortestPath(fromNode, toNode);
-            adj.resetNodesVisited();
+            output = dijkstraShortestPath(fromNode, toNode);
+            resetNodesVisited();
             return output;
         }
     }
 
     ArrayList<Node> getNodes() {
         return nodes;
-    }
-
-    public AdjEdges getAdj() {
-        return adj;
     }
 
     Stack<Node> getNodePath(String from, String to) {
@@ -188,13 +181,13 @@ public class Graph {
                 toNode = i;
             }
         }
-        return adj.animatePath(fromNode, toNode);
+        return animatePath(fromNode, toNode);
     }
 
     void saveData(String path) {
         try {
             ArrayList<Edge> edgeArrayList = new ArrayList<>();
-            adj.copyEdge(edgeArrayList);
+            copyEdge(edgeArrayList);
             FileWriter fos = new FileWriter(path);
             fos.write(nodes.size()+"\n");
             for(Node n : nodes){
@@ -229,7 +222,7 @@ public class Graph {
                     } catch (NumberFormatException e) {
                         return "Invalid Input";
                     }
-                }else if(tem.length==1){
+                }else if(tem.length==1&& counter!=0){
                     found=true;
                     try {
                         no_of_edges = Integer.parseInt(tem[0]);
@@ -268,6 +261,282 @@ public class Graph {
         }
         return "Values Imported";
     }
+    void addEdge(Node source, Node destination, double weight) {
+        this.nodes1.add(source);
+        this.nodes1.add(destination);
+        this.addEdgeHelper(source, destination, weight);
+        if (source != destination) {
+            this.addEdgeHelper(destination, source, weight);
+        }
+
+    }
+
+    void modifyEdgeWeight(Node a, Node b, double weight) {
+        Iterator var5 = a.edges.iterator();
+
+        Edge edge;
+        do {
+            if (!var5.hasNext()) {
+                return;
+            }
+
+            edge = (Edge)var5.next();
+        } while(edge.source != a || edge.destination != b);
+
+        edge.setText(weight);
+        edge.weight = weight;
+    }
+
+    boolean deleteEd(Node a, Node b) {
+        Iterator var3 = a.edges.iterator();
+
+        Edge edge;
+        do {
+            if (!var3.hasNext()) {
+                return false;
+            }
+
+            edge = (Edge)var3.next();
+        } while(edge.source != a || edge.destination != b);
+
+        a.edges.remove(edge);
+        return true;
+    }
+
+
+    void deleteNo(Node from) {
+        Iterator var2 = this.nodes1.iterator();
+
+        label27:
+        while (var2.hasNext()) {
+            Node node = (Node) var2.next();
+            Iterator var4 = node.edges.iterator();
+
+            while (true) {
+                Edge edge;
+                do {
+                    if (!var4.hasNext()) {
+                        continue label27;
+                    }
+
+                    edge = (Edge) var4.next();
+                } while (edge.source != from && edge.destination != from);
+
+                node.edges.remove(edge);
+            }
+        }
+    }
+
+
+    public void copyEdge(ArrayList<Edge> edges) {
+        Iterator var2 = this.nodes1.iterator();
+
+        while(var2.hasNext()) {
+            Node node = (Node)var2.next();
+            edges.addAll(node.edges);
+        }
+
+    }
+
+    private void addEdgeHelper(Node a, Node b, double weight) {
+        Iterator var5 = a.edges.iterator();
+
+        Edge edge;
+        do {
+            if (!var5.hasNext()) {
+                a.edges.add(new Edge(a, b, weight));
+                return;
+            }
+
+            edge = (Edge)var5.next();
+        } while(edge.source != a || edge.destination != b);
+
+        edge.weight = weight;
+    }
+
+    boolean hasEdge(Node source, Node destination) {
+        LinkedList<Edge> edges = source.edges;
+        Iterator var4 = edges.iterator();
+
+        Edge edge;
+        do {
+            if (!var4.hasNext()) {
+                return false;
+            }
+
+            edge = (Edge)var4.next();
+        } while(edge.destination != destination);
+
+        return true;
+    }
+
+    double weight(Node source, Node destination) {
+        LinkedList<Edge> edges = source.edges;
+        Iterator var4 = edges.iterator();
+
+        Edge edge;
+        do {
+            if (!var4.hasNext()) {
+                return 0.0;
+            }
+
+            edge = (Edge)var4.next();
+        } while(edge.destination != destination);
+
+        return edge.weight;
+    }
+
+    void resetNodesVisited() {
+        Iterator var1 = this.nodes1.iterator();
+
+        while(var1.hasNext()) {
+            Node node = (Node)var1.next();
+            node.unvisited();
+        }
+
+    }
+
+    String dijkstraShortestPath(Node start, Node end) {
+        String output = "";
+        HashMap<Node, Node> changedAt = new HashMap();
+        changedAt.put(start, (Node) null);
+        HashMap<Node, Double> shortestPathMap = new HashMap();
+        Iterator var6 = this.nodes1.iterator();
+
+        Node child;
+        while(var6.hasNext()) {
+            child = (Node)var6.next();
+            if (child == start) {
+                shortestPathMap.put(start, 0.0);
+            } else {
+                shortestPathMap.put(child, Double.POSITIVE_INFINITY);
+            }
+        }
+
+        var6 = start.edges.iterator();
+
+        while(var6.hasNext()) {
+            Edge edge = (Edge)var6.next();
+            shortestPathMap.put(edge.destination, edge.weight);
+            changedAt.put(edge.destination, start);
+        }
+
+        start.visit();
+
+        while(true) {
+            Node currentNode = this.closestReachableUnvisited(shortestPathMap);
+            if (currentNode == null) {
+                return "There isn't a path between " + start.name + " and " + end.name;
+            }
+
+            if (currentNode == end) {
+                child = end;
+                StringBuilder path = new StringBuilder(end.name);
+
+                while(true) {
+                    Node parent = (Node)changedAt.get(child);
+                    if (parent == null) {
+                        output = output + path;
+                        return output;
+                    }
+
+                    path.insert(0, parent.name + "->");
+                    child = parent;
+                }
+            }
+
+            currentNode.visit();
+            Iterator var12 = currentNode.edges.iterator();
+
+            while(var12.hasNext()) {
+                Edge edge = (Edge)var12.next();
+                if (!edge.destination.isVisited() && (Double)shortestPathMap.get(currentNode) + edge.weight < (Double)shortestPathMap.get(edge.destination)) {
+                    shortestPathMap.put(edge.destination, (Double)shortestPathMap.get(currentNode) + edge.weight);
+                    changedAt.put(edge.destination, currentNode);
+                }
+            }
+        }
+    }
+
+    Stack<Node> animatePath(Node start, Node end) {
+        Stack<Node> path = new Stack();
+        HashMap<Node, Node> changedAt = new HashMap();
+        changedAt.put(start, (Node) null);
+        HashMap<Node, Double> shortestPathMap = new HashMap();
+        Iterator var6 = this.nodes1.iterator();
+
+        Node child;
+        while(var6.hasNext()) {
+            child = (Node)var6.next();
+            if (child == start) {
+                shortestPathMap.put(start, 0.0);
+            } else {
+                shortestPathMap.put(child, Double.POSITIVE_INFINITY);
+            }
+        }
+
+        var6 = start.edges.iterator();
+
+        while(var6.hasNext()) {
+            Edge edge = (Edge)var6.next();
+            shortestPathMap.put(edge.destination, edge.weight);
+            changedAt.put(edge.destination, start);
+        }
+
+        start.visit();
+
+        while(true) {
+            Node currentNode = this.closestReachableUnvisited(shortestPathMap);
+            if (currentNode == null) {
+                return null;
+            }
+
+            if (currentNode == end) {
+                child = end;
+                path.push(end);
+
+                while(true) {
+                    Node parent = (Node)changedAt.get(child);
+                    if (parent == null) {
+                        return path;
+                    }
+
+                    path.push(parent);
+                    child = parent;
+                }
+            }
+
+            currentNode.visit();
+            Iterator var11 = currentNode.edges.iterator();
+
+            while(var11.hasNext()) {
+                Edge edge = (Edge)var11.next();
+                if (!edge.destination.isVisited() && (Double)shortestPathMap.get(currentNode) + edge.weight < (Double)shortestPathMap.get(edge.destination)) {
+                    shortestPathMap.put(edge.destination, (Double)shortestPathMap.get(currentNode) + edge.weight);
+                    changedAt.put(edge.destination, currentNode);
+                }
+            }
+        }
+    }
+
+    private Node closestReachableUnvisited(HashMap<Node, Double> shortestPathMap) {
+        double shortestDistance = Double.POSITIVE_INFINITY;
+        Node closestReachableNode = null;
+        Iterator var5 = this.nodes1.iterator();
+
+        while(var5.hasNext()) {
+            Node node = (Node)var5.next();
+            if (!node.isVisited()) {
+                double currentDistance = (Double)shortestPathMap.get(node);
+                if (currentDistance != Double.POSITIVE_INFINITY && currentDistance < shortestDistance) {
+                    shortestDistance = currentDistance;
+                    closestReachableNode = node;
+                }
+            }
+        }
+
+        return closestReachableNode;
+    }
 
     private String from;
 
@@ -289,206 +558,4 @@ public class Graph {
 
     private String to;
 }
-
-    /*
-    public Node<T> searchNode(int key){
-        for(int i=0; i<graph.size(); i++){
-            if(graph.get(i).getKey()==key){
-                return graph.get(i);
-            }
-        }
-        return null;
-    }
-    @Override
-    public ArrayList<Node<T>> BFS(int key) {
-        ArrayList<Node<T>> arr= new ArrayList<>();
-        Node<T> goal= searchNode(key);
-        if(goal!=null){
-            for(Node<T> u: graph){
-                if(u!=goal){
-                    u.setColor(0);
-                    int a=0;
-                    int b=((Integer)a).MAX_VALUE;
-                    u.setD(b);
-                    u.setPi(null);
-                }
-            }
-            goal.setColor(1);
-            goal.setD(0);
-            goal.setPi(null);
-            Queue<Node<T>> q= new LinkedList<>();
-            q.add(goal);
-            Node<T> u= new Node<>();
-            while(!q.isEmpty()){
-                u= q.poll();
-                for(Pair<Node<T>,Integer>v: u.getNodes()){
-                    if(v.getKey().getColor()==0) {
-                        v.getKey().setColor(1);
-                        v.getKey().setD(u.getD() + 1);
-                        v.getKey().setPi(u);
-                        q.add(v.getKey());
-                    }
-                }
-                u.setColor(2);
-                //System.out.print("("+u.getKey()+" "+u.getD()+") ");
-                arr.add(u);
-            }
-        }
-        return arr;
-    }
-
-    @Override
-    public void DFS() {
-        for(Node<T>u: graph){
-            u.setColor(0);
-            u.setPi(null);
-        }
-        time=0;
-        int count=0;
-        for(Node<T>u: graph){
-            if(u.getColor()==0){
-                count++;
-                DFSVisit(u);
-            }
-        }
-    }
-
-    @Override
-    public void DFSVisit(Node<T> u) {
-        time+=1;
-        u.setD(time);
-        u.setColor(1);
-        for(Pair<Node<T>,Integer> v: u.getNodes()){
-            if(v.getKey().getColor()==0){
-                v.getKey().setPi(u);
-                DFSVisit(v.getKey());
-            }
-        }
-        u.setColor(2);
-        time+=1;
-        u.setForward(time);
-    }
-    @Override
-    public ArrayList<Integer> dijkstra(int source) {
-        ArrayList<Integer> dist= new ArrayList<>(graph.size()-1);
-        ArrayList<Integer> prev= new ArrayList<>(graph.size()-1);
-        for(int i=0; i<graph.size(); i++){
-            dist.add(0);}
-
-        dist.remove(source);
-        dist.add(source,0);
-
-        PriorityQueue<Integer>q=new PriorityQueue<>();
-        Node<T> s= searchNode(source);
-        for(Node<T> v:graph){
-            if(v!=s){
-                dist.remove(v.getKey());
-                dist.add(v.getKey(),((Integer)1).MAX_VALUE);
-            }
-            prev.add(v.getKey(),null);
-            q.add(dist.get(v.getKey()));
-
-
-
-        }
-
-
-        while(!q.isEmpty()){
-            int u= q.peek(); q.poll();
-            int value=-1;
-            for(int i=0; i< dist.size(); i++){
-                if(dist.get(i)==u){
-                    value=i;
-                    break;
-                }
-            }
-            //System.out.println(dist);
-            for(Pair<Node<T>,Integer>v: graph.get(value).getNodes()){
-                int alt= dist.get(value)+v.getValue();
-                if(alt<dist.get(v.getKey().getKey())){
-                    q.remove(dist.get(v.getKey().getKey()));
-                    dist.remove(v.getKey().getKey());
-                    dist.add(v.getKey().getKey(),alt);
-                    prev.remove(v.getKey().getKey());
-                    prev.add(v.getKey().getKey(),u);
-                    q.add(dist.get(v.getKey().getKey()));
-                }
-            }
-        }
-
-        return dist;
-
-    }
-
-    @Override
-    public int[][] floydWarsall() {
-        int[][] dist= new int[graph.size()][graph.size()];
-
-        for(int i=0; i<dist.length;i++){
-            for (int j=0; j<dist[0].length;j++){
-                dist[i][j]=100000;
-            }
-        }
-
-        for(Node<T>v: graph){
-            dist[v.getKey()][v.getKey()]=0;
-        }
-
-        for(Node<T>v:graph){
-            for(Pair<Node<T>,Integer>u: v.getNodes()){
-                dist[v.getKey()][u.getKey().getKey()]=u.getValue();
-            }
-        }
-
-        for(int k=0; k<graph.size(); k++){
-            for(int i=0; i< graph.size(); i++){
-                for(int j=0; j< graph.size(); j++){
-                    if(dist[i][j] > (dist[i][k] + dist[k][j]) && ((dist[i][k]) != Integer.MAX_VALUE && ((dist[k][j]) != Integer.MAX_VALUE))){
-                        dist[i][j]=dist[i][k]+dist[k][j];
-                    }
-                }
-            }
-        }
-
-
-
-        for(int i=0; i<dist.length;i++){
-            for (int j=0; j<dist[0].length;j++){
-                System.out.print(dist[i][j]+" ");
-            }
-            System.out.println();
-        }
-
-
-        return dist;
-    }
-
-    @Override
-    public int[] prim(int r, int w) {
-        int[] key= new int[graph.size()];
-        int [] color= new int[graph.size()];
-        int [] pred= new int[graph.size()];
-        for(Node<T>u: graph){
-            key[u.getKey()]= ((Integer)1).MAX_VALUE;
-            color[u.getKey()]=0;
-        }
-
-        key[r]=0;
-        pred[r]=-1;
-        PriorityQueue<Integer> q= new PriorityQueue<>();
-        q.add(r);
-        while(!q.isEmpty()){
-            int u= q.poll();
-            for(Pair<Node<T>,Integer> v: graph.get(u).getNodes()){
-                if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()]){
-                    key[v.getKey().getKey()]= v.getValue();
-                    pred[v.getKey().getKey()]= graph.get(u).getKey();
-                }
-            }
-            color[u]= 1;
-        }
-
-        return key;
-    }
-     */
 

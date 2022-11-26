@@ -167,7 +167,7 @@ public class RappiandoController implements Initializable {
 
     void getGraphPane(AnchorPane tempPane){
         ArrayList<Edge> edgeArrayList = new ArrayList<>();
-        graph.getAdj().copyEdge(edgeArrayList);
+        graph.copyEdge(edgeArrayList);
 
         for(Edge e : edgeArrayList){
             tempPane.getChildren().addAll(e.getLine(),e.getText());
@@ -247,7 +247,7 @@ public class RappiandoController implements Initializable {
                     Node node = nodeStack.pop();
                     path.getElements().add(new LineTo(node.x, node.y));
                 }
-                graph.getAdj().resetNodesVisited();
+                graph.resetNodesVisited();
                 PathTransition pathTransition = new PathTransition();
                 Rectangle rectangle = new Rectangle(0, 0, 10, 10);
 
