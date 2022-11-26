@@ -157,7 +157,7 @@ public class AdjacencyList<T> implements IGraph<T>{
     }
 
     @Override
-    public int[][] floydWarsall() {
+    public int[][] floydWarshall() {
         int[][] dist= new int[graph.size()][graph.size()];
 
         for(int i=0; i<dist.length;i++){

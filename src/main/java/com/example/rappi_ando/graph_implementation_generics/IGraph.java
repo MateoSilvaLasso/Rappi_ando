@@ -1,7 +1,6 @@
 package com.example.rappi_ando.graph_implementation_generics;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface IGraph<T> {
 
@@ -17,7 +16,7 @@ public interface IGraph<T> {
 
     public ArrayList<Integer> dijkstra(int source);
 
-    public int[][] floydWarsall();
+    public int[][] floydWarshall();
 
     public int[] prim(int r, int w);
 
