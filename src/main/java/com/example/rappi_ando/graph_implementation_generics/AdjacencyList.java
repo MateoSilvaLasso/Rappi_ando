@@ -162,7 +162,7 @@ public class AdjacencyList<T> implements IGraph<T>{
 
         for(int i=0; i<dist.length;i++){
             for (int j=0; j<dist[0].length;j++){
-                dist[i][j]=100000;
+                dist[i][j]=((Integer)1).MAX_VALUE;
             }
         }
 
@@ -186,12 +186,7 @@ public class AdjacencyList<T> implements IGraph<T>{
             }
         }
 
-        for(int i=0; i<dist.length;i++){
-            for (int j=0; j<dist[0].length;j++){
-                System.out.print(dist[i][j]+" ");
-            }
-            System.out.println();
-        }
+
         return dist;
     }
 
@@ -212,7 +207,7 @@ public class AdjacencyList<T> implements IGraph<T>{
         while(!q.isEmpty()){
             int u= q.poll();
             for(Pair<Node<T>,Integer> v: graph.get(u).getNodes()){
-                if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()]){
+                if(color[v.getKey().getKey()]==0 && v.getValue()<key[v.getKey().getKey()] && v.getValue()!=((Integer)1).MAX_VALUE){
                     key[v.getKey().getKey()]= v.getValue();
                     pred[v.getKey().getKey()]= graph.get(u).getKey();
                 }
